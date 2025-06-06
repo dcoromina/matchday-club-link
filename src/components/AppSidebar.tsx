@@ -1,5 +1,6 @@
 
 import { Users, Calendar, Trophy, BarChart3, UserCheck, Settings, Home } from "lucide-react";
+import { Link, useLocation } from "react-router-dom";
 import {
   Sidebar,
   SidebarContent,
@@ -16,42 +17,44 @@ import {
 const menuItems = [
   {
     title: "Dashboard",
-    url: "#",
+    url: "/",
     icon: Home,
   },
   {
     title: "Teams",
-    url: "#teams",
+    url: "/teams",
     icon: Users,
   },
   {
     title: "Matches",
-    url: "#matches",
+    url: "/matches",
     icon: Calendar,
   },
   {
     title: "Rankings",
-    url: "#rankings",
+    url: "/rankings",
     icon: Trophy,
   },
   {
     title: "Attendance",
-    url: "#attendance",
+    url: "/attendance",
     icon: UserCheck,
   },
   {
     title: "Statistics",
-    url: "#stats",
+    url: "/stats",
     icon: BarChart3,
   },
   {
     title: "Settings",
-    url: "#settings",
+    url: "/settings",
     icon: Settings,
   },
 ];
 
 export function AppSidebar() {
+  const location = useLocation();
+
   return (
     <Sidebar className="border-r border-blue-200">
       <SidebarHeader className="p-6 border-b border-blue-200">
@@ -74,12 +77,14 @@ export function AppSidebar() {
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton 
                     asChild 
-                    className="hover:bg-blue-50 hover:text-blue-700 transition-colors"
+                    className={`hover:bg-blue-50 hover:text-blue-700 transition-colors ${
+                      location.pathname === item.url ? 'bg-blue-100 text-blue-700' : ''
+                    }`}
                   >
-                    <a href={item.url} className="flex items-center gap-3 px-3 py-2">
+                    <Link to={item.url} className="flex items-center gap-3 px-3 py-2">
                       <item.icon className="w-5 h-5" />
                       <span className="font-medium">{item.title}</span>
-                    </a>
+                    </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
