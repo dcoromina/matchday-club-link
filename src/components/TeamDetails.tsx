@@ -2,52 +2,68 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Users, UserCheck, AlertCircle, Edit } from "lucide-react";
+import { Users, UserCheck, AlertCircle, Edit, Trophy, MapPin } from "lucide-react";
 
-const players = [
-  {
-    id: 1,
-    name: "John Smith",
-    position: "Forward",
-    age: 25,
-    status: "Available",
-    injuries: 0,
-    attendance: 95,
-    team: "Senior Men"
+const teamsData = {
+  "1": {
+    name: "Senior Men Football",
+    sport: "Football",
+    league: "Premier Division",
+    status: "active",
+    coach: "John Doe",
+    founded: "2010",
+    players: [
+      { id: 1, name: "John Smith", position: "Forward", age: 25, status: "Available", injuries: 0, attendance: 95 },
+      { id: 2, name: "Mike Johnson", position: "Midfielder", age: 23, status: "Injured", injuries: 1, attendance: 87 },
+      { id: 3, name: "David Wilson", position: "Defender", age: 24, status: "Available", injuries: 0, attendance: 92 },
+      { id: 4, name: "Tom Brown", position: "Goalkeeper", age: 26, status: "Available", injuries: 0, attendance: 98 },
+    ]
   },
-  {
-    id: 2,
-    name: "Mike Johnson",
-    position: "Midfielder",
-    age: 23,
-    status: "Injured",
-    injuries: 1,
-    attendance: 87,
-    team: "Senior Men"
+  "2": {
+    name: "Senior Women Football",
+    sport: "Football",
+    league: "Division 1",
+    status: "active",
+    coach: "Sarah Connor",
+    founded: "2012",
+    players: [
+      { id: 5, name: "Sarah Wilson", position: "Defender", age: 21, status: "Available", injuries: 0, attendance: 98 },
+      { id: 6, name: "Emma Davis", position: "Goalkeeper", age: 24, status: "Available", injuries: 0, attendance: 100 },
+      { id: 7, name: "Lisa Martinez", position: "Forward", age: 22, status: "Available", injuries: 0, attendance: 94 },
+      { id: 8, name: "Anna Thompson", position: "Midfielder", age: 23, status: "Suspended", injuries: 0, attendance: 89 },
+    ]
   },
-  {
-    id: 3,
-    name: "Sarah Wilson",
-    position: "Defender",
-    age: 21,
-    status: "Available",
-    injuries: 0,
-    attendance: 98,
-    team: "Senior Women"
-  },
-  {
-    id: 4,
-    name: "Emma Davis",
-    position: "Goalkeeper",
-    age: 24,
-    status: "Available",
-    injuries: 0,
-    attendance: 100,
-    team: "Senior Women"
-  },
-];
+  "6": {
+    name: "Senior Men Basketball",
+    sport: "Basketball",
+    league: "National League",
+    status: "active",
+    coach: "Michael Jordan",
+    founded: "2015",
+    players: [
+      { id: 9, name: "Alex Johnson", position: "Point Guard", age: 24, status: "Available", injuries: 0, attendance: 96 },
+      { id: 10, name: "Chris Williams", position: "Center", age: 27, status: "Available", injuries: 0, attendance: 93 },
+      { id: 11, name: "Ryan Davis", position: "Forward", age: 25, status: "Injured", injuries: 1, attendance: 85 },
+    ]
+  }
+};
 
-export function TeamDetails() {
+interface TeamDetailsProps {
+  teamId?: string;
+}
+
+export function TeamDetails({ teamId }: TeamDetailsProps) {
+  const team = teamId ? teamsData[teamId as keyof typeof teamsData] : null;
+
+  if (!team) {
+    return (
+      <div className="text-center py-8">
+        <h2 className="text-2xl font-bold text-gray-900 mb-4">Team Not Found</h2>
+        <p className="text-gray-600">The requested team could not be found.</p>
+      </div>
+    );
+  }
+
   const getStatusColor = (status: string) => {
     switch (status) {
       case "Available": return "bg-green-100 text-green-800";
@@ -59,14 +75,52 @@ export function TeamDetails() {
 
   return (
     <div className="space-y-6">
-      <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-bold text-gray-900">Team Management</h2>
-        <Button className="bg-blue-600 hover:bg-blue-700">
-          <Users className="w-4 h-4 mr-2" />
-          Add Player
-        </Button>
-      </div>
+      {/* Team Information Header */}
+      <Card className="border-blue-100">
+        <CardHeader>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-4">
+              <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-green-500 rounded-lg flex items-center justify-center">
+                <Trophy className="w-8 h-8 text-white" />
+              </div>
+              <div>
+                <CardTitle className="text-2xl">{team.name}</CardTitle>
+                <div className="flex items-center gap-4 mt-2 text-gray-600">
+                  <div className="flex items-center gap-1">
+                    <MapPin className="w-4 h-4" />
+                    <span>{team.league}</span>
+                  </div>
+                  <Badge variant={team.status === "active" ? "default" : "secondary"}>
+                    {team.status}
+                  </Badge>
+                </div>
+              </div>
+            </div>
+            <Button className="bg-blue-600 hover:bg-blue-700">
+              <Users className="w-4 h-4 mr-2" />
+              Add Player
+            </Button>
+          </div>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="text-center p-4 bg-gray-50 rounded-lg">
+              <div className="text-2xl font-bold text-blue-600">{team.players.length}</div>
+              <div className="text-sm text-gray-600">Total Players</div>
+            </div>
+            <div className="text-center p-4 bg-gray-50 rounded-lg">
+              <div className="text-2xl font-bold text-green-600">{team.coach}</div>
+              <div className="text-sm text-gray-600">Head Coach</div>
+            </div>
+            <div className="text-center p-4 bg-gray-50 rounded-lg">
+              <div className="text-2xl font-bold text-gray-900">{team.founded}</div>
+              <div className="text-sm text-gray-600">Founded</div>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
 
+      {/* Player Roster */}
       <Card className="border-blue-100">
         <CardHeader>
           <CardTitle>Player Roster</CardTitle>
@@ -77,7 +131,6 @@ export function TeamDetails() {
               <thead>
                 <tr className="border-b border-gray-200">
                   <th className="text-left py-3 px-4 font-semibold text-gray-700">Player</th>
-                  <th className="text-left py-3 px-4 font-semibold text-gray-700">Team</th>
                   <th className="text-left py-3 px-4 font-semibold text-gray-700">Position</th>
                   <th className="text-left py-3 px-4 font-semibold text-gray-700">Status</th>
                   <th className="text-left py-3 px-4 font-semibold text-gray-700">Attendance</th>
@@ -85,7 +138,7 @@ export function TeamDetails() {
                 </tr>
               </thead>
               <tbody>
-                {players.map((player) => (
+                {team.players.map((player) => (
                   <tr key={player.id} className="border-b border-gray-100 hover:bg-gray-50">
                     <td className="py-4 px-4">
                       <div className="flex items-center gap-3">
@@ -98,7 +151,6 @@ export function TeamDetails() {
                         </div>
                       </div>
                     </td>
-                    <td className="py-4 px-4 text-gray-900">{player.team}</td>
                     <td className="py-4 px-4 text-gray-900">{player.position}</td>
                     <td className="py-4 px-4">
                       <Badge className={getStatusColor(player.status)}>
