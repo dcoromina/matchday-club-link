@@ -2,7 +2,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Users, UserCheck, AlertCircle, Edit, Trophy, MapPin } from "lucide-react";
+import { Users, UserCheck, AlertCircle, Edit, Trophy, MapPin, Medal, Target } from "lucide-react";
 
 const teamsData = {
   "1": {
@@ -12,6 +12,7 @@ const teamsData = {
     status: "active",
     coach: "John Doe",
     founded: "2010",
+    ranking: { position: 1, points: 45, matches: 15, wins: 14, draws: 3, losses: 0 },
     players: [
       { id: 1, name: "John Smith", position: "Forward", age: 25, status: "Available", injuries: 0, attendance: 95 },
       { id: 2, name: "Mike Johnson", position: "Midfielder", age: 23, status: "Injured", injuries: 1, attendance: 87 },
@@ -26,6 +27,7 @@ const teamsData = {
     status: "active",
     coach: "Sarah Connor",
     founded: "2012",
+    ranking: { position: 2, points: 38, matches: 15, wins: 12, draws: 2, losses: 1 },
     players: [
       { id: 5, name: "Sarah Wilson", position: "Defender", age: 21, status: "Available", injuries: 0, attendance: 98 },
       { id: 6, name: "Emma Davis", position: "Goalkeeper", age: 24, status: "Available", injuries: 0, attendance: 100 },
@@ -40,6 +42,7 @@ const teamsData = {
     status: "active",
     coach: "Michael Jordan",
     founded: "2015",
+    ranking: { position: 3, points: 32, matches: 14, wins: 10, draws: 2, losses: 2 },
     players: [
       { id: 9, name: "Alex Johnson", position: "Point Guard", age: 24, status: "Available", injuries: 0, attendance: 96 },
       { id: 10, name: "Chris Williams", position: "Center", age: 27, status: "Available", injuries: 0, attendance: 93 },
@@ -73,6 +76,13 @@ export function TeamDetails({ teamId }: TeamDetailsProps) {
     }
   };
 
+  const getRankingIcon = (position: number) => {
+    if (position === 1) return <Trophy className="w-4 h-4 text-yellow-500" />;
+    if (position === 2) return <Medal className="w-4 h-4 text-gray-400" />;
+    if (position === 3) return <Target className="w-4 h-4 text-amber-600" />;
+    return null;
+  };
+
   return (
     <div className="space-y-6">
       {/* Team Information Header */}
@@ -103,7 +113,7 @@ export function TeamDetails({ teamId }: TeamDetailsProps) {
           </div>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
             <div className="text-center p-4 bg-gray-50 rounded-lg">
               <div className="text-2xl font-bold text-blue-600">{team.players.length}</div>
               <div className="text-sm text-gray-600">Total Players</div>
@@ -115,6 +125,44 @@ export function TeamDetails({ teamId }: TeamDetailsProps) {
             <div className="text-center p-4 bg-gray-50 rounded-lg">
               <div className="text-2xl font-bold text-gray-900">{team.founded}</div>
               <div className="text-sm text-gray-600">Founded</div>
+            </div>
+            <div className="text-center p-4 bg-gray-50 rounded-lg">
+              <div className="flex items-center justify-center gap-2 mb-1">
+                {getRankingIcon(team.ranking.position)}
+                <div className="text-2xl font-bold text-gray-900">{team.ranking.position}</div>
+              </div>
+              <div className="text-sm text-gray-600">League Position</div>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Team Ranking */}
+      <Card className="border-blue-100">
+        <CardHeader>
+          <CardTitle>Team Performance</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+            <div className="text-center p-3 bg-blue-50 rounded-lg">
+              <div className="text-xl font-bold text-blue-600">{team.ranking.points}</div>
+              <div className="text-sm text-gray-600">Points</div>
+            </div>
+            <div className="text-center p-3 bg-gray-50 rounded-lg">
+              <div className="text-xl font-bold text-gray-900">{team.ranking.matches}</div>
+              <div className="text-sm text-gray-600">Matches</div>
+            </div>
+            <div className="text-center p-3 bg-green-50 rounded-lg">
+              <div className="text-xl font-bold text-green-600">{team.ranking.wins}</div>
+              <div className="text-sm text-gray-600">Wins</div>
+            </div>
+            <div className="text-center p-3 bg-yellow-50 rounded-lg">
+              <div className="text-xl font-bold text-yellow-600">{team.ranking.draws}</div>
+              <div className="text-sm text-gray-600">Draws</div>
+            </div>
+            <div className="text-center p-3 bg-red-50 rounded-lg">
+              <div className="text-xl font-bold text-red-600">{team.ranking.losses}</div>
+              <div className="text-sm text-gray-600">Losses</div>
             </div>
           </div>
         </CardContent>
