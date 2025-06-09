@@ -1,8 +1,9 @@
-
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Calendar, Plus, Users, MapPin } from "lucide-react";
+import { Calendar, Plus, Users, MapPin, FileText, Target } from "lucide-react";
+import { MatchDetails } from "./MatchDetails";
+import { useState } from "react";
 
 const matches = [
   {
@@ -12,8 +13,9 @@ const matches = [
     date: "2024-06-08",
     time: "15:00",
     venue: "Home Stadium",
-    status: "upcoming",
+    status: "completed",
     lineupSet: true,
+    score: { home: 3, away: 2 },
   },
   {
     id: 2,
@@ -38,6 +40,25 @@ const matches = [
 ];
 
 export function MatchManagement() {
+  const [selectedMatch, setSelectedMatch] = useState<number | null>(null);
+
+  if (selectedMatch) {
+    return (
+      <div className="space-y-6">
+        <div className="flex items-center gap-4">
+          <Button 
+            variant="outline" 
+            onClick={() => setSelectedMatch(null)}
+          >
+            ← Back to Matches
+          </Button>
+          <h2 className="text-2xl font-bold text-gray-900">Match Details</h2>
+        </div>
+        <MatchDetails />
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
@@ -65,10 +86,22 @@ export function MatchManagement() {
                       <span>{match.venue}</span>
                     </div>
                   </div>
+                  {match.score && (
+                    <div className="mt-2">
+                      <span className="text-lg font-bold text-blue-600">
+                        {match.score.home} - {match.score.away}
+                      </span>
+                    </div>
+                  )}
                 </div>
-                <Badge variant={match.lineupSet ? "default" : "secondary"}>
-                  {match.lineupSet ? "Lineup Set" : "Pending"}
-                </Badge>
+                <div className="flex flex-col gap-2">
+                  <Badge variant={match.status === "completed" ? "default" : "secondary"}>
+                    {match.status}
+                  </Badge>
+                  <Badge variant={match.lineupSet ? "default" : "secondary"}>
+                    {match.lineupSet ? "Lineup Set" : "Pending"}
+                  </Badge>
+                </div>
               </div>
             </CardHeader>
             <CardContent>
@@ -87,11 +120,18 @@ export function MatchManagement() {
                 </div>
                 
                 <div className="grid grid-cols-2 gap-3">
-                  <Button variant="outline" size="sm" className="w-full">
-                    View Squad
+                  <Button 
+                    variant="outline" 
+                    size="sm" 
+                    className="w-full"
+                    onClick={() => setSelectedMatch(match.id)}
+                  >
+                    <FileText className="w-3 h-3 mr-1" />
+                    {match.status === "completed" ? "Match Report" : "Match Details"}
                   </Button>
                   <Button variant="outline" size="sm" className="w-full">
-                    Match Details
+                    <Target className="w-3 h-3 mr-1" />
+                    {match.status === "completed" ? "Statistics" : "Predictions"}
                   </Button>
                 </div>
               </div>
@@ -100,6 +140,7 @@ export function MatchManagement() {
         ))}
       </div>
 
+      {/* Recent Results */}
       <Card className="border-blue-100">
         <CardHeader>
           <CardTitle>Recent Results</CardTitle>
