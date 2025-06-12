@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Calendar, Clock, Users, MapPin, Plus, CheckCircle, Court } from "lucide-react";
+import { Calendar, Clock, Users, MapPin, Plus, CheckCircle, Building } from "lucide-react";
 import { useState } from "react";
 
 const courts = [
@@ -86,7 +86,7 @@ export function TrainingManagement() {
       <Card className="border-blue-100">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <Court className="w-5 h-5 text-blue-600" />
+            <Building className="w-5 h-5 text-blue-600" />
             Available Courts
           </CardTitle>
         </CardHeader>
@@ -134,7 +134,7 @@ export function TrainingManagement() {
                   <div className="grid grid-cols-2 gap-4 text-sm">
                     <div>
                       <div className="flex items-center gap-1 text-gray-600">
-                        <Court className="w-3 h-3" />
+                        <Building className="w-3 h-3" />
                         <span>Court Assignment</span>
                       </div>
                       {editingSession === session.id ? (
