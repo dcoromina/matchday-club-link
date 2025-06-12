@@ -1,5 +1,4 @@
-
-import { Users, Calendar, Trophy, BarChart3, UserCheck, Settings, Home } from "lucide-react";
+import { Users, Calendar, Trophy, BarChart3, UserCheck, Settings, Home, DollarSign } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import {
   Sidebar,
@@ -44,6 +43,11 @@ const menuItems = [
     title: "Statistics",
     url: "/stats",
     icon: BarChart3,
+  },
+  {
+    title: "Financial",
+    url: "/financial",
+    icon: DollarSign,
   },
   {
     title: "Settings",
