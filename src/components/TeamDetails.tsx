@@ -2,7 +2,8 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Users, UserCheck, AlertCircle, Edit, Trophy, MapPin, Medal, Target } from "lucide-react";
+import { Users, UserCheck, AlertCircle, Edit, Trophy, MapPin, Medal, Target, Crown, Eye } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const teamsData = {
   "1": {
@@ -13,11 +14,12 @@ const teamsData = {
     coach: "John Doe",
     founded: "2010",
     ranking: { position: 1, points: 45, matches: 15, wins: 14, draws: 3, losses: 0 },
+    captain: 1,
     players: [
-      { id: 1, name: "John Smith", position: "Forward", age: 25, status: "Available", injuries: 0, attendance: 95 },
-      { id: 2, name: "Mike Johnson", position: "Midfielder", age: 23, status: "Injured", injuries: 1, attendance: 87 },
-      { id: 3, name: "David Wilson", position: "Defender", age: 24, status: "Available", injuries: 0, attendance: 92 },
-      { id: 4, name: "Tom Brown", position: "Goalkeeper", age: 26, status: "Available", injuries: 0, attendance: 98 },
+      { id: 1, name: "John Smith", position: "Forward", age: 25, status: "Available", injuries: 0, attendance: 95, isCaptain: true },
+      { id: 2, name: "Mike Johnson", position: "Midfielder", age: 23, status: "Injured", injuries: 1, attendance: 87, isCaptain: false },
+      { id: 3, name: "David Wilson", position: "Defender", age: 24, status: "Available", injuries: 0, attendance: 92, isCaptain: false },
+      { id: 4, name: "Tom Brown", position: "Goalkeeper", age: 26, status: "Available", injuries: 0, attendance: 98, isCaptain: false },
     ]
   },
   "2": {
@@ -28,11 +30,12 @@ const teamsData = {
     coach: "Sarah Connor",
     founded: "2012",
     ranking: { position: 2, points: 38, matches: 15, wins: 12, draws: 2, losses: 1 },
+    captain: 5,
     players: [
-      { id: 5, name: "Sarah Wilson", position: "Defender", age: 21, status: "Available", injuries: 0, attendance: 98 },
-      { id: 6, name: "Emma Davis", position: "Goalkeeper", age: 24, status: "Available", injuries: 0, attendance: 100 },
-      { id: 7, name: "Lisa Martinez", position: "Forward", age: 22, status: "Available", injuries: 0, attendance: 94 },
-      { id: 8, name: "Anna Thompson", position: "Midfielder", age: 23, status: "Suspended", injuries: 0, attendance: 89 },
+      { id: 5, name: "Sarah Wilson", position: "Defender", age: 21, status: "Available", injuries: 0, attendance: 98, isCaptain: true },
+      { id: 6, name: "Emma Davis", position: "Goalkeeper", age: 24, status: "Available", injuries: 0, attendance: 100, isCaptain: false },
+      { id: 7, name: "Lisa Martinez", position: "Forward", age: 22, status: "Available", injuries: 0, attendance: 94, isCaptain: false },
+      { id: 8, name: "Anna Thompson", position: "Midfielder", age: 23, status: "Suspended", injuries: 0, attendance: 89, isCaptain: false },
     ]
   },
   "6": {
@@ -43,10 +46,11 @@ const teamsData = {
     coach: "Michael Jordan",
     founded: "2015",
     ranking: { position: 3, points: 32, matches: 14, wins: 10, draws: 2, losses: 2 },
+    captain: 9,
     players: [
-      { id: 9, name: "Alex Johnson", position: "Point Guard", age: 24, status: "Available", injuries: 0, attendance: 96 },
-      { id: 10, name: "Chris Williams", position: "Center", age: 27, status: "Available", injuries: 0, attendance: 93 },
-      { id: 11, name: "Ryan Davis", position: "Forward", age: 25, status: "Injured", injuries: 1, attendance: 85 },
+      { id: 9, name: "Alex Johnson", position: "Point Guard", age: 24, status: "Available", injuries: 0, attendance: 96, isCaptain: true },
+      { id: 10, name: "Chris Williams", position: "Center", age: 27, status: "Available", injuries: 0, attendance: 93, isCaptain: false },
+      { id: 11, name: "Ryan Davis", position: "Forward", age: 25, status: "Injured", injuries: 1, attendance: 85, isCaptain: false },
     ]
   }
 };
@@ -83,6 +87,8 @@ export function TeamDetails({ teamId }: TeamDetailsProps) {
     return null;
   };
 
+  const captain = team.players.find(player => player.isCaptain);
+
   return (
     <div className="space-y-6">
       {/* Team Information Header */}
@@ -103,6 +109,12 @@ export function TeamDetails({ teamId }: TeamDetailsProps) {
                   <Badge variant={team.status === "active" ? "default" : "secondary"}>
                     {team.status}
                   </Badge>
+                  {captain && (
+                    <div className="flex items-center gap-1">
+                      <Crown className="w-4 h-4 text-yellow-600" />
+                      <span className="text-sm">Captain: {captain.name}</span>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
@@ -190,8 +202,13 @@ export function TeamDetails({ teamId }: TeamDetailsProps) {
                   <tr key={player.id} className="border-b border-gray-100 hover:bg-gray-50">
                     <td className="py-4 px-4">
                       <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-green-500 rounded-full flex items-center justify-center text-white font-semibold">
-                          {player.name.split(' ').map(n => n[0]).join('')}
+                        <div className="relative">
+                          <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-green-500 rounded-full flex items-center justify-center text-white font-semibold">
+                            {player.name.split(' ').map(n => n[0]).join('')}
+                          </div>
+                          {player.isCaptain && (
+                            <Crown className="w-4 h-4 text-yellow-500 absolute -top-1 -right-1" />
+                          )}
                         </div>
                         <div>
                           <div className="font-semibold text-gray-900">{player.name}</div>
@@ -218,10 +235,18 @@ export function TeamDetails({ teamId }: TeamDetailsProps) {
                       </div>
                     </td>
                     <td className="py-4 px-4">
-                      <Button variant="outline" size="sm">
-                        <Edit className="w-3 h-3 mr-1" />
-                        Edit
-                      </Button>
+                      <div className="flex gap-2">
+                        <Link to={`/player/${player.id}`}>
+                          <Button variant="outline" size="sm">
+                            <Eye className="w-3 h-3 mr-1" />
+                            View
+                          </Button>
+                        </Link>
+                        <Button variant="outline" size="sm">
+                          <Edit className="w-3 h-3 mr-1" />
+                          Edit
+                        </Button>
+                      </div>
                     </td>
                   </tr>
                 ))}

@@ -1,3 +1,4 @@
+
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -6,6 +7,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import Teams from "./pages/Teams";
 import TeamDetail from "./pages/TeamDetail";
+import PlayerDetail from "./pages/PlayerDetail";
 import Matches from "./pages/Matches";
 import Rankings from "./pages/Rankings";
 import Attendance from "./pages/Attendance";
@@ -27,6 +29,7 @@ const App = () => (
           <Route path="/" element={<Index />} />
           <Route path="/teams" element={<Teams />} />
           <Route path="/teams/:teamId" element={<TeamDetail />} />
+          <Route path="/player/:playerId" element={<PlayerDetail />} />
           <Route path="/matches" element={<Matches />} />
           <Route path="/rankings" element={<Rankings />} />
           <Route path="/attendance" element={<Attendance />} />
