@@ -5,6 +5,7 @@ import { StatsCards } from "./StatsCards";
 import { DashboardTeamsOverview } from "./DashboardTeamsOverview";
 import { RecentMatches } from "./RecentMatches";
 import { UpcomingEvents } from "./UpcomingEvents";
+import { TrainingCourtsOverview } from "./TrainingCourtsOverview";
 
 export function DashboardContent() {
   return (
@@ -15,6 +16,7 @@ export function DashboardContent() {
       </div>
       <div className="space-y-6">
         <StatsCards />
+        <TrainingCourtsOverview />
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <DashboardTeamsOverview />
           <RecentMatches />
