@@ -1,5 +1,4 @@
 
-import { SidebarTrigger } from "@/components/ui/sidebar";
 import { DashboardHeader } from "./DashboardHeader";
 import { StatsCards } from "./StatsCards";
 import { DashboardTeamsOverview } from "./DashboardTeamsOverview";
@@ -12,11 +11,7 @@ export function DashboardContent() {
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
       <div className="sticky top-0 z-10 bg-white/80 backdrop-blur-sm border-b border-gray-200/50 shadow-sm">
         <div className="px-6 py-4">
-          <div className="flex items-center gap-4">
-            <SidebarTrigger className="text-gray-600 hover:text-gray-900" />
-            <div className="h-6 w-px bg-gray-300" />
-            <h1 className="text-xl font-semibold text-gray-900">Dashboard Overview</h1>
-          </div>
+          <h1 className="text-xl font-semibold text-gray-900">Dashboard Overview</h1>
         </div>
       </div>
       
