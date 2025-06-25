@@ -82,22 +82,22 @@ export function MainNavbar() {
   return (
     <div className="bg-white border-b border-gray-200 shadow-sm">
       {/* Search and Notifications Bar */}
-      <div className="px-6 py-4 border-b border-gray-100">
-        <div className="flex items-center justify-between">
-          <div className="flex-1 max-w-md">
+      <div className="px-4 sm:px-6 py-3 sm:py-4 border-b border-gray-100">
+        <div className="flex items-center justify-between gap-4">
+          <div className="flex-1 max-w-xs sm:max-w-md">
             <div className="relative">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
               <Input 
-                placeholder="Search teams, players, events..." 
-                className="pl-10 border-gray-200 focus:border-blue-500 focus:ring-blue-500"
+                placeholder="Search..." 
+                className="pl-10 border-gray-200 focus:border-blue-500 focus:ring-blue-500 text-sm"
               />
             </div>
           </div>
           
-          <div className="flex items-center gap-4">
-            <Button variant="ghost" size="icon" className="relative text-gray-600 hover:text-gray-900 hover:bg-gray-100">
-              <Bell className="w-5 h-5" />
-              <Badge className="absolute -top-1 -right-1 w-5 h-5 p-0 bg-red-500 text-white text-xs flex items-center justify-center">
+          <div className="flex items-center gap-2 sm:gap-4">
+            <Button variant="ghost" size="icon" className="relative text-gray-600 hover:text-gray-900 hover:bg-gray-100 h-8 w-8 sm:h-10 sm:w-10">
+              <Bell className="w-4 h-4 sm:w-5 sm:h-5" />
+              <Badge className="absolute -top-1 -right-1 w-4 h-4 sm:w-5 sm:h-5 p-0 bg-red-500 text-white text-xs flex items-center justify-center">
                 3
               </Badge>
             </Button>
@@ -106,16 +106,16 @@ export function MainNavbar() {
       </div>
       
       {/* Dynamic Stats Bar */}
-      <div className="px-6 py-4 bg-gradient-to-r from-gray-50 to-blue-50">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 text-sm">
+      <div className="px-4 sm:px-6 py-3 sm:py-4 bg-gradient-to-r from-gray-50 to-blue-50">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6 text-sm">
           {currentStats.map((stat, index) => (
-            <div key={index} className="flex items-center gap-3">
-              <div className={`p-2 rounded-lg ${stat.color}`}>
-                <div className={`w-2 h-2 rounded-full ${stat.dotColor}`}></div>
+            <div key={index} className="flex items-center gap-2 sm:gap-3">
+              <div className={`p-1.5 sm:p-2 rounded-lg ${stat.color}`}>
+                <div className={`w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full ${stat.dotColor}`}></div>
               </div>
-              <div>
-                <p className="font-semibold text-gray-900">{stat.label}</p>
-                <p className="text-gray-600 text-xs">{stat.sublabel}</p>
+              <div className="min-w-0">
+                <p className="font-semibold text-gray-900 text-xs sm:text-sm truncate">{stat.label}</p>
+                <p className="text-gray-600 text-xs truncate">{stat.sublabel}</p>
               </div>
             </div>
           ))}
