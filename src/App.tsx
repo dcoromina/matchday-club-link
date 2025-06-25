@@ -16,6 +16,9 @@ import Settings from "./pages/Settings";
 import Financial from "./pages/Financial";
 import Login from "./pages/Login";
 import NotFound from "./pages/NotFound";
+import Events from "./pages/Events";
+import Facilities from "./pages/Facilities";
+import Communications from "./pages/Communications";
 
 const queryClient = new QueryClient();
 
@@ -36,6 +39,9 @@ const App = () => (
           <Route path="/stats" element={<Statistics />} />
           <Route path="/financial" element={<Financial />} />
           <Route path="/settings" element={<Settings />} />
+          <Route path="/events" element={<Events />} />
+          <Route path="/facilities" element={<Facilities />} />
+          <Route path="/communications" element={<Communications />} />
           <Route path="/login" element={<Login />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />

@@ -1,5 +1,5 @@
 
-import { Users, Calendar, Trophy, BarChart3, UserCheck, Settings, Home, DollarSign } from "lucide-react";
+import { Users, Calendar, Trophy, BarChart3, UserCheck, Settings, Home, DollarSign, CalendarDays, Building, MessageSquare } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import {
   Sidebar,
@@ -29,6 +29,21 @@ const menuItems = [
     title: "Matches",
     url: "/matches",
     icon: Calendar,
+  },
+  {
+    title: "Events",
+    url: "/events",
+    icon: CalendarDays,
+  },
+  {
+    title: "Facilities",
+    url: "/facilities",
+    icon: Building,
+  },
+  {
+    title: "Communications",
+    url: "/communications",
+    icon: MessageSquare,
   },
   {
     title: "Rankings",

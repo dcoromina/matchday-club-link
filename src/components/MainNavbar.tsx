@@ -25,6 +25,24 @@ const pageStats = {
     { label: "5 Upcoming", sublabel: "Next 7 days", color: "bg-purple-100", dotColor: "bg-purple-500" },
     { label: "2 Postponed", sublabel: "Weather issues", color: "bg-orange-100", dotColor: "bg-orange-500" }
   ],
+  "/events": [
+    { label: "12 Events", sublabel: "This month", color: "bg-purple-100", dotColor: "bg-purple-500" },
+    { label: "234 Registrations", sublabel: "Total participants", color: "bg-green-100", dotColor: "bg-green-500" },
+    { label: "3 Upcoming", sublabel: "Next 3 days", color: "bg-blue-100", dotColor: "bg-blue-500" },
+    { label: "89% Attendance", sublabel: "Average rate", color: "bg-green-100", dotColor: "bg-green-500" }
+  ],
+  "/facilities": [
+    { label: "6 Facilities", sublabel: "Available", color: "bg-green-100", dotColor: "bg-green-500" },
+    { label: "18 Bookings", sublabel: "Today", color: "bg-blue-100", dotColor: "bg-blue-500" },
+    { label: "$1,280", sublabel: "Revenue today", color: "bg-green-100", dotColor: "bg-green-500" },
+    { label: "1 Maintenance", sublabel: "Scheduled", color: "bg-orange-100", dotColor: "bg-orange-500" }
+  ],
+  "/communications": [
+    { label: "12 Announcements", sublabel: "Active", color: "bg-blue-100", dotColor: "bg-blue-500" },
+    { label: "45 Messages", sublabel: "Today", color: "bg-green-100", dotColor: "bg-green-500" },
+    { label: "8 Notifications", sublabel: "Unread", color: "bg-orange-100", dotColor: "bg-orange-500" },
+    { label: "156 Members", sublabel: "Can receive updates", color: "bg-purple-100", dotColor: "bg-purple-500" }
+  ],
   "/rankings": [
     { label: "3 Championships", sublabel: "This season", color: "bg-yellow-100", dotColor: "bg-yellow-500" },
     { label: "Top 5", sublabel: "League position", color: "bg-green-100", dotColor: "bg-green-500" },
