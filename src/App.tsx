@@ -32,6 +32,8 @@ const App = () => (
           <Route path="/" element={<Index />} />
           <Route path="/teams" element={<Teams />} />
           <Route path="/teams/:teamId" element={<TeamDetail />} />
+          <Route path="/coaches" element={<Coaches />} />
+          <Route path="/coaches/:coachId" element={<CoachDetail />} />
           <Route path="/player/:playerId" element={<PlayerDetail />} />
           <Route path="/matches" element={<Matches />} />
           <Route path="/rankings" element={<Rankings />} />

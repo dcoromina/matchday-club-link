@@ -1,20 +1,45 @@
-
-import { Users, Calendar, Trophy, BarChart3, UserCheck, Settings, Home, DollarSign, CalendarDays, Building, MessageSquare } from "lucide-react";
-import { Link, useLocation } from "react-router-dom";
 import {
-  Sidebar,
-  SidebarContent,
-  SidebarGroup,
-  SidebarGroupContent,
-  SidebarGroupLabel,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
-  SidebarHeader,
-  SidebarTrigger,
-} from "@/components/ui/sidebar";
+  Home,
+  LayoutDashboard,
+  Settings,
+  Users,
+  Calendar,
+  Trophy,
+  MapPin,
+  UserCheck,
+  Medal,
+  BarChart3,
+  DollarSign,
+  MessageSquare,
+  User,
+  Shield,
+  Bell,
+  TrendingUp,
+} from "lucide-react";
+import { NavLink, useLocation } from "react-router-dom";
 
-const menuItems = [
+import { Button } from "@/components/ui/button";
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
+import { Separator } from "@/components/ui/separator";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuShortcut,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { useSidebar } from "@/components/ui/sidebar";
+
+const navigationItems = [
   {
     title: "Dashboard",
     url: "/",
@@ -26,34 +51,34 @@ const menuItems = [
     icon: Users,
   },
   {
+    title: "Coaches", // Added coaches
+    url: "/coaches",
+    icon: User,
+  },
+  {
     title: "Matches",
-    url: "/matches",
-    icon: Calendar,
+    url: "/matches", 
+    icon: Trophy,
   },
   {
     title: "Events",
     url: "/events",
-    icon: CalendarDays,
+    icon: Calendar,
   },
   {
     title: "Facilities",
     url: "/facilities",
-    icon: Building,
-  },
-  {
-    title: "Communications",
-    url: "/communications",
-    icon: MessageSquare,
-  },
-  {
-    title: "Rankings",
-    url: "/rankings",
-    icon: Trophy,
+    icon: MapPin,
   },
   {
     title: "Attendance",
     url: "/attendance",
     icon: UserCheck,
+  },
+  {
+    title: "Rankings",
+    url: "/rankings",
+    icon: Medal,
   },
   {
     title: "Statistics",
@@ -66,6 +91,11 @@ const menuItems = [
     icon: DollarSign,
   },
   {
+    title: "Communications",
+    url: "/communications",
+    icon: MessageSquare,
+  },
+  {
     title: "Settings",
     url: "/settings",
     icon: Settings,
@@ -73,51 +103,68 @@ const menuItems = [
 ];
 
 export function AppSidebar() {
+  const { isOpen, onOpen, onClose } = useSidebar();
   const location = useLocation();
 
   return (
-    <Sidebar className="border-r border-gray-200 bg-white">
-      <SidebarHeader className="p-6 border-b border-gray-100">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-blue-700 rounded-xl flex items-center justify-center shadow-lg">
-              <Trophy className="w-6 h-6 text-white" />
-            </div>
-            <div className="group-data-[collapsible=icon]:hidden">
-              <h2 className="text-xl font-bold text-gray-900">SportClub</h2>
-              <p className="text-sm text-gray-600">Pro Dashboard</p>
-            </div>
-          </div>
-          <SidebarTrigger className="text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg p-1.5" />
+    <Sheet open={isOpen} onOpenChange={onClose}>
+      <SheetTrigger asChild>
+        <Button variant="ghost" size="icon" className="md:hidden">
+          <LayoutDashboard className="h-4 w-4" />
+        </Button>
+      </SheetTrigger>
+      <SheetContent className="w-full sm:w-64 border-r pr-0">
+        <SheetHeader className="pl-6 pb-10 pt-8">
+          <SheetTitle>SportClub Pro</SheetTitle>
+          <SheetDescription>
+            Manage everything related to your sports club from one place.
+          </SheetDescription>
+        </SheetHeader>
+        <Separator />
+        <div className="flex flex-col space-y-1 py-4">
+          {navigationItems.map((item) => (
+            <NavLink
+              key={item.url}
+              to={item.url}
+              className={({ isActive }) =>
+                `flex items-center gap-3 px-6 py-2 text-sm font-medium rounded-md transition-colors hover:bg-gray-100 ${
+                  isActive
+                    ? "bg-gray-100 text-gray-900"
+                    : "text-gray-500 hover:text-gray-900"
+                }`
+              }
+            >
+              <item.icon className="w-4 h-4" />
+              {item.title}
+            </NavLink>
+          ))}
         </div>
-      </SidebarHeader>
-      <SidebarContent className="px-4 py-6">
-        <SidebarGroup>
-          <SidebarGroupLabel className="text-gray-700 font-semibold mb-3 px-3">Main Menu</SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu className="space-y-1">
-              {menuItems.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton 
-                    asChild 
-                    className={`rounded-lg transition-all duration-200 hover:bg-blue-50 hover:text-blue-700 group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:px-0 ${
-                      location.pathname === item.url 
-                        ? 'bg-blue-100 text-blue-700 shadow-sm border border-blue-200' 
-                        : 'text-gray-700 hover:shadow-sm'
-                    }`}
-                    tooltip={item.title}
-                  >
-                    <Link to={item.url} className="flex items-center gap-3 px-3 py-2.5 group-data-[collapsible=icon]:px-2 group-data-[collapsible=icon]:justify-center">
-                      <item.icon className="w-5 h-5 flex-shrink-0" />
-                      <span className="font-medium group-data-[collapsible=icon]:hidden">{item.title}</span>
-                    </Link>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
-      </SidebarContent>
-    </Sidebar>
+        <Separator />
+        <div className="mt-auto mb-4 px-6">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" className="w-full justify-start gap-2">
+                <Avatar className="w-6 h-6">
+                  <AvatarImage src="https://github.com/shadcn.png" />
+                  <AvatarFallback>SC</AvatarFallback>
+                </Avatar>
+                <span className="truncate">shadcn</span>
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" forceMount>
+              <DropdownMenuItem>
+                Profile
+                <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem>
+                Log out
+                <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
+      </SheetContent>
+    </Sheet>
   );
 }
