@@ -1,3 +1,4 @@
+
 import {
   Home,
   LayoutDashboard,
@@ -103,11 +104,11 @@ const navigationItems = [
 ];
 
 export function AppSidebar() {
-  const { isOpen, onOpen, onClose } = useSidebar();
+  const { openMobile, setOpenMobile } = useSidebar();
   const location = useLocation();
 
   return (
-    <Sheet open={isOpen} onOpenChange={onClose}>
+    <Sheet open={openMobile} onOpenChange={setOpenMobile}>
       <SheetTrigger asChild>
         <Button variant="ghost" size="icon" className="md:hidden">
           <LayoutDashboard className="h-4 w-4" />
