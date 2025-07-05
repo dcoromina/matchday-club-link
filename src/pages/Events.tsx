@@ -1,4 +1,3 @@
-
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/AppSidebar";
 import { PageLayout } from "@/components/PageLayout";
@@ -26,7 +25,7 @@ const Events = () => {
       location: "Home Stadium",
       capacity: 50,
       registered: 25,
-      status: "upcoming"
+      status: "upcoming",
     },
     {
       id: 2,
@@ -37,7 +36,7 @@ const Events = () => {
       location: "Main Complex",
       capacity: 100,
       registered: 78,
-      status: "upcoming"
+      status: "upcoming",
     },
     {
       id: 3,
@@ -48,120 +47,128 @@ const Events = () => {
       location: "Training Ground",
       capacity: 30,
       registered: 30,
-      status: "full"
-    }
+      status: "full",
+    },
   ];
 
   const getEventTypeColor = (type: string) => {
     switch (type) {
-      case "match": return "bg-blue-100 text-blue-800";
-      case "tournament": return "bg-purple-100 text-purple-800";
-      case "training": return "bg-green-100 text-green-800";
-      default: return "bg-gray-100 text-gray-800";
+      case "match":
+        return "bg-blue-100 text-blue-800";
+      case "tournament":
+        return "bg-purple-100 text-purple-800";
+      case "training":
+        return "bg-green-100 text-green-800";
+      default:
+        return "bg-gray-100 text-gray-800";
     }
   };
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case "upcoming": return "bg-blue-100 text-blue-800";
-      case "full": return "bg-red-100 text-red-800";
-      case "completed": return "bg-green-100 text-green-800";
-      default: return "bg-gray-100 text-gray-800";
+      case "upcoming":
+        return "bg-blue-100 text-blue-800";
+      case "full":
+        return "bg-red-100 text-red-800";
+      case "completed":
+        return "bg-green-100 text-green-800";
+      default:
+        return "bg-gray-100 text-gray-800";
     }
   };
 
   return (
-    <SidebarProvider>
-      <div className="min-h-screen flex w-full bg-gray-50">
-        <AppSidebar />
-        <main className="flex-1 overflow-auto">
-          <PageLayout
-            title="Events & Tournaments"
-            subtitle="Manage all club events, tournaments, and activities"
-            actions={
-              <div className="flex items-center gap-3">
-                <Button variant="outline" size="sm">
-                  <Filter className="w-4 h-4 mr-2" />
-                  Filter
-                </Button>
-                <Button onClick={() => setIsCreateModalOpen(true)}>
-                  <Plus className="w-4 h-4 mr-2" />
-                  Create Event
-                </Button>
+    <>
+      <PageLayout
+        title="Events & Tournaments"
+        subtitle="Manage all club events, tournaments, and activities"
+        actions={
+          <div className="flex items-center gap-3">
+            <Button variant="outline" size="sm">
+              <Filter className="w-4 h-4 mr-2" />
+              Filter
+            </Button>
+            <Button onClick={() => setIsCreateModalOpen(true)}>
+              <Plus className="w-4 h-4 mr-2" />
+              Create Event
+            </Button>
+          </div>
+        }
+      >
+        <div className="space-y-6">
+          <Tabs defaultValue="list" className="w-full">
+            <TabsList>
+              <TabsTrigger value="list">List View</TabsTrigger>
+              <TabsTrigger value="calendar">Calendar View</TabsTrigger>
+            </TabsList>
+
+            <TabsContent value="list" className="space-y-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {events.map((event) => (
+                  <Card
+                    key={event.id}
+                    className="hover:shadow-md transition-all"
+                  >
+                    <CardHeader>
+                      <div className="flex items-start justify-between">
+                        <CardTitle className="text-lg">{event.title}</CardTitle>
+                        <div className="flex gap-2">
+                          <Badge className={getEventTypeColor(event.type)}>
+                            {event.type}
+                          </Badge>
+                          <Badge className={getStatusColor(event.status)}>
+                            {event.status}
+                          </Badge>
+                        </div>
+                      </div>
+                    </CardHeader>
+                    <CardContent className="space-y-4">
+                      <div className="space-y-2">
+                        <div className="flex items-center gap-2 text-sm text-gray-600">
+                          <Calendar className="w-4 h-4" />
+                          <span>{event.date}</span>
+                        </div>
+                        <div className="flex items-center gap-2 text-sm text-gray-600">
+                          <Clock className="w-4 h-4" />
+                          <span>{event.time}</span>
+                        </div>
+                        <div className="flex items-center gap-2 text-sm text-gray-600">
+                          <MapPin className="w-4 h-4" />
+                          <span>{event.location}</span>
+                        </div>
+                        <div className="flex items-center gap-2 text-sm text-gray-600">
+                          <Users className="w-4 h-4" />
+                          <span>
+                            {event.registered}/{event.capacity} registered
+                          </span>
+                        </div>
+                      </div>
+                      <div className="flex gap-2">
+                        <Button size="sm" className="flex-1">
+                          View Details
+                        </Button>
+                        <Button size="sm" variant="outline">
+                          Register
+                        </Button>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
               </div>
-            }
-          >
-            <div className="space-y-6">
-              <Tabs defaultValue="list" className="w-full">
-                <TabsList>
-                  <TabsTrigger value="list">List View</TabsTrigger>
-                  <TabsTrigger value="calendar">Calendar View</TabsTrigger>
-                </TabsList>
-                
-                <TabsContent value="list" className="space-y-4">
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {events.map((event) => (
-                      <Card key={event.id} className="hover:shadow-md transition-all">
-                        <CardHeader>
-                          <div className="flex items-start justify-between">
-                            <CardTitle className="text-lg">{event.title}</CardTitle>
-                            <div className="flex gap-2">
-                              <Badge className={getEventTypeColor(event.type)}>
-                                {event.type}
-                              </Badge>
-                              <Badge className={getStatusColor(event.status)}>
-                                {event.status}
-                              </Badge>
-                            </div>
-                          </div>
-                        </CardHeader>
-                        <CardContent className="space-y-4">
-                          <div className="space-y-2">
-                            <div className="flex items-center gap-2 text-sm text-gray-600">
-                              <Calendar className="w-4 h-4" />
-                              <span>{event.date}</span>
-                            </div>
-                            <div className="flex items-center gap-2 text-sm text-gray-600">
-                              <Clock className="w-4 h-4" />
-                              <span>{event.time}</span>
-                            </div>
-                            <div className="flex items-center gap-2 text-sm text-gray-600">
-                              <MapPin className="w-4 h-4" />
-                              <span>{event.location}</span>
-                            </div>
-                            <div className="flex items-center gap-2 text-sm text-gray-600">
-                              <Users className="w-4 h-4" />
-                              <span>{event.registered}/{event.capacity} registered</span>
-                            </div>
-                          </div>
-                          <div className="flex gap-2">
-                            <Button size="sm" className="flex-1">
-                              View Details
-                            </Button>
-                            <Button size="sm" variant="outline">
-                              Register
-                            </Button>
-                          </div>
-                        </CardContent>
-                      </Card>
-                    ))}
-                  </div>
-                </TabsContent>
-                
-                <TabsContent value="calendar">
-                  <EventCalendar events={events} />
-                </TabsContent>
-              </Tabs>
-            </div>
-          </PageLayout>
-          
-          <EventCreationModal 
-            isOpen={isCreateModalOpen} 
-            onClose={() => setIsCreateModalOpen(false)} 
-          />
-        </main>
-      </div>
-    </SidebarProvider>
+            </TabsContent>
+
+            <TabsContent value="calendar">
+              <EventCalendar events={events} />
+            </TabsContent>
+          </Tabs>
+        </div>
+      </PageLayout>
+
+      <EventCreationModal
+        isOpen={isCreateModalOpen}
+        onClose={() => setIsCreateModalOpen(false)}
+      />
+    </>
   );
 };
 
