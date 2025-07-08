@@ -19,8 +19,6 @@ import NotFound from "./pages/NotFound";
 import Events from "./pages/Events";
 import Facilities from "./pages/Facilities";
 import Communications from "./pages/Communications";
-import Coaches from "./pages/Coaches";
-import CoachDetail from "./pages/CoachDetail";
 
 const queryClient = new QueryClient();
 
