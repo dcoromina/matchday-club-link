@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import {
   AlignJustify,
@@ -24,7 +25,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { usePathname } from 'next/navigation';
+import { useLocation } from 'react-router-dom';
 
 const getPageStats = (pathname: string) => {
   switch (pathname) {
@@ -88,7 +89,8 @@ const getPageStats = (pathname: string) => {
 };
 
 export function MainNavbar() {
-  const pathname = usePathname() || '/';
+  const location = useLocation();
+  const pathname = location.pathname || '/';
   const stats = getPageStats(pathname);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
