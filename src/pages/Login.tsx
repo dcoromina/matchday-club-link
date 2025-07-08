@@ -6,7 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
 import { useToast } from "@/hooks/use-toast";
-import { Trophy } from "lucide-react";
+import { Trophy, User, Lock } from "lucide-react";
 
 interface LoginFormData {
   email: string;
@@ -40,33 +40,45 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-green-50">
-      <Card className="w-full max-w-md">
-        <CardHeader className="text-center">
-          <div className="flex justify-center mb-4">
-            <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-green-500 rounded-lg flex items-center justify-center">
-              <Trophy className="w-8 h-8 text-white" />
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-600 via-blue-700 to-green-600 relative overflow-hidden">
+      {/* Background decoration */}
+      <div className="absolute inset-0 bg-gradient-to-br from-blue-600/20 via-transparent to-green-600/20"></div>
+      <div className="absolute top-0 left-0 w-full h-full bg-[url('data:image/svg+xml,%3Csvg width=\"60\" height=\"60\" viewBox=\"0 0 60 60\" xmlns=\"http://www.w3.org/2000/svg\"%3E%3Cg fill=\"none\" fill-rule=\"evenodd\"%3E%3Cg fill=\"%23ffffff\" fill-opacity=\"0.05\"%3E%3Ccircle cx=\"30\" cy=\"30\" r=\"2\"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] opacity-30"></div>
+      
+      <Card className="w-full max-w-md mx-4 shadow-2xl border-0 bg-white/95 backdrop-blur-sm">
+        <CardHeader className="text-center pb-8">
+          <div className="flex justify-center mb-6">
+            <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-green-500 rounded-2xl flex items-center justify-center shadow-lg">
+              <Trophy className="w-10 h-10 text-white" />
             </div>
           </div>
-          <CardTitle className="text-2xl font-bold">SportClub Pro</CardTitle>
-          <CardDescription>Sign in to your account</CardDescription>
+          <CardTitle className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-green-600 bg-clip-text text-transparent">
+            SportClub Pro
+          </CardTitle>
+          <CardDescription className="text-gray-600 text-base mt-2">
+            Welcome back! Sign in to manage your sports club
+          </CardDescription>
         </CardHeader>
-        <CardContent>
+        <CardContent className="space-y-6">
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
               <FormField
                 control={form.control}
                 name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Email</FormLabel>
+                    <FormLabel className="text-gray-700 font-medium">Email Address</FormLabel>
                     <FormControl>
-                      <Input 
-                        placeholder="Enter your email" 
-                        type="email" 
-                        {...field} 
-                        required
-                      />
+                      <div className="relative">
+                        <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                        <Input 
+                          placeholder="Enter your email address" 
+                          type="email" 
+                          className="pl-10 h-12 border-gray-200 focus:border-blue-500 focus:ring-blue-500"
+                          {...field} 
+                          required
+                        />
+                      </div>
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -77,14 +89,18 @@ const Login = () => {
                 name="password"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Password</FormLabel>
+                    <FormLabel className="text-gray-700 font-medium">Password</FormLabel>
                     <FormControl>
-                      <Input 
-                        placeholder="Enter your password" 
-                        type="password" 
-                        {...field} 
-                        required
-                      />
+                      <div className="relative">
+                        <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                        <Input 
+                          placeholder="Enter your password" 
+                          type="password" 
+                          className="pl-10 h-12 border-gray-200 focus:border-blue-500 focus:ring-blue-500"
+                          {...field} 
+                          required
+                        />
+                      </div>
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -92,13 +108,26 @@ const Login = () => {
               />
               <Button 
                 type="submit" 
-                className="w-full" 
+                className="w-full h-12 bg-gradient-to-r from-blue-500 to-green-500 hover:from-blue-600 hover:to-green-600 text-white font-semibold shadow-lg transition-all duration-200 transform hover:scale-105" 
                 disabled={isLoading}
               >
-                {isLoading ? "Signing in..." : "Sign In"}
+                {isLoading ? (
+                  <div className="flex items-center gap-2">
+                    <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                    Signing in...
+                  </div>
+                ) : (
+                  "Sign In"
+                )}
               </Button>
             </form>
           </Form>
+          
+          <div className="text-center pt-4">
+            <p className="text-sm text-gray-500">
+              Don't have an account? <span className="text-blue-600 hover:text-blue-700 cursor-pointer font-medium">Contact your administrator</span>
+            </p>
+          </div>
         </CardContent>
       </Card>
     </div>

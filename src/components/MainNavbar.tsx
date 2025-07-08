@@ -1,124 +1,172 @@
-
-import { Bell, Search } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { useState } from "react";
+import {
+  AlignJustify,
+  Bell,
+  Calendar,
+  DollarSign,
+  Home,
+  ListChecks,
+  MapPin,
+  MessageSquare,
+  Search,
+  Settings,
+  Shield,
+  Target,
+  TrendingUp,
+  Trophy,
+  User,
+  UserCheck,
+  Users,
+  BarChart3,
+  Medal,
+} from "lucide-react";
 import { Input } from "@/components/ui/input";
-import { useLocation } from "react-router-dom";
-import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { usePathname } from 'next/navigation';
 
-// Stats data for different pages
-const pageStats = {
-  "/": [
-    { label: "5 Teams Active", sublabel: "Training today", color: "bg-green-100", dotColor: "bg-green-500" },
-    { label: "3 Matches", sublabel: "This week", color: "bg-blue-100", iconColor: "text-blue-600" },
-    { label: "85% Attendance", sublabel: "This month", color: "bg-green-100", iconColor: "text-green-600" },
-    { label: "2 Courts", sublabel: "Under maintenance", color: "bg-orange-100", iconColor: "text-orange-600" }
-  ],
-  "/teams": [
-    { label: "8 Active Teams", sublabel: "Across all sports", color: "bg-blue-100", dotColor: "bg-blue-500" },
-    { label: "156 Players", sublabel: "Total registered", color: "bg-green-100", dotColor: "bg-green-500" },
-    { label: "12 New Members", sublabel: "This month", color: "bg-purple-100", dotColor: "bg-purple-500" },
-    { label: "3 Teams", sublabel: "Need attention", color: "bg-orange-100", dotColor: "bg-orange-500" }
-  ],
-  "/matches": [
-    { label: "24 Matches", sublabel: "This month", color: "bg-blue-100", dotColor: "bg-blue-500" },
-    { label: "78% Win Rate", sublabel: "Overall", color: "bg-green-100", dotColor: "bg-green-500" },
-    { label: "5 Upcoming", sublabel: "Next 7 days", color: "bg-purple-100", dotColor: "bg-purple-500" },
-    { label: "2 Postponed", sublabel: "Weather issues", color: "bg-orange-100", dotColor: "bg-orange-500" }
-  ],
-  "/events": [
-    { label: "12 Events", sublabel: "This month", color: "bg-purple-100", dotColor: "bg-purple-500" },
-    { label: "234 Registrations", sublabel: "Total participants", color: "bg-green-100", dotColor: "bg-green-500" },
-    { label: "3 Upcoming", sublabel: "Next 3 days", color: "bg-blue-100", dotColor: "bg-blue-500" },
-    { label: "89% Attendance", sublabel: "Average rate", color: "bg-green-100", dotColor: "bg-green-500" }
-  ],
-  "/facilities": [
-    { label: "6 Facilities", sublabel: "Available", color: "bg-green-100", dotColor: "bg-green-500" },
-    { label: "18 Bookings", sublabel: "Today", color: "bg-blue-100", dotColor: "bg-blue-500" },
-    { label: "$1,280", sublabel: "Revenue today", color: "bg-green-100", dotColor: "bg-green-500" },
-    { label: "1 Maintenance", sublabel: "Scheduled", color: "bg-orange-100", dotColor: "bg-orange-500" }
-  ],
-  "/communications": [
-    { label: "12 Announcements", sublabel: "Active", color: "bg-blue-100", dotColor: "bg-blue-500" },
-    { label: "45 Messages", sublabel: "Today", color: "bg-green-100", dotColor: "bg-green-500" },
-    { label: "8 Notifications", sublabel: "Unread", color: "bg-orange-100", dotColor: "bg-orange-500" },
-    { label: "156 Members", sublabel: "Can receive updates", color: "bg-purple-100", dotColor: "bg-purple-500" }
-  ],
-  "/rankings": [
-    { label: "3 Championships", sublabel: "This season", color: "bg-yellow-100", dotColor: "bg-yellow-500" },
-    { label: "Top 5", sublabel: "League position", color: "bg-green-100", dotColor: "bg-green-500" },
-    { label: "85 Points", sublabel: "Total earned", color: "bg-blue-100", dotColor: "bg-blue-500" },
-    { label: "12 Matches", sublabel: "Remaining", color: "bg-purple-100", dotColor: "bg-purple-500" }
-  ],
-  "/attendance": [
-    { label: "85% Average", sublabel: "Attendance rate", color: "bg-green-100", dotColor: "bg-green-500" },
-    { label: "142 Present", sublabel: "Today", color: "bg-blue-100", dotColor: "bg-blue-500" },
-    { label: "14 Absent", sublabel: "Today", color: "bg-orange-100", dotColor: "bg-orange-500" },
-    { label: "5 Teams", sublabel: "Perfect attendance", color: "bg-green-100", dotColor: "bg-green-500" }
-  ],
-  "/stats": [
-    { label: "1,247 Games", sublabel: "Total played", color: "bg-blue-100", dotColor: "bg-blue-500" },
-    { label: "892 Goals", sublabel: "Season total", color: "bg-green-100", dotColor: "bg-green-500" },
-    { label: "78% Win Rate", sublabel: "Home games", color: "bg-purple-100", dotColor: "bg-purple-500" },
-    { label: "156 Players", sublabel: "Statistical data", color: "bg-orange-100", dotColor: "bg-orange-500" }
-  ],
-  "/financial": [
-    { label: "$12,450", sublabel: "Monthly revenue", color: "bg-green-100", dotColor: "bg-green-500" },
-    { label: "$8,320", sublabel: "Expenses", color: "bg-orange-100", dotColor: "bg-orange-500" },
-    { label: "$4,130", sublabel: "Net profit", color: "bg-blue-100", dotColor: "bg-blue-500" },
-    { label: "5 Pending", sublabel: "Payments", color: "bg-yellow-100", dotColor: "bg-yellow-500" }
-  ],
-  "/settings": [
-    { label: "8 Integrations", sublabel: "Active", color: "bg-blue-100", dotColor: "bg-blue-500" },
-    { label: "5 Users", sublabel: "Admin access", color: "bg-green-100", dotColor: "bg-green-500" },
-    { label: "12 Backups", sublabel: "Completed", color: "bg-purple-100", dotColor: "bg-purple-500" },
-    { label: "2 Updates", sublabel: "Available", color: "bg-orange-100", dotColor: "bg-orange-500" }
-  ]
+const getPageStats = (pathname: string) => {
+  switch (pathname) {
+    case '/':
+      return [
+        { label: 'Active Teams', value: '8', icon: Users },
+        { label: 'Total Players', value: '156', icon: UserCheck },
+        { label: 'This Month Matches', value: '24', icon: Trophy },
+        { label: 'Win Rate', value: '78%', icon: Target }
+      ];
+    case '/teams':
+      return [
+        { label: 'Active Teams', value: '8', icon: Users },
+        { label: 'Total Players', value: '156', icon: UserCheck },
+        { label: 'Training Sessions', value: '32', icon: Calendar },
+        { label: 'Avg Performance', value: '85%', icon: TrendingUp }
+      ];
+    case '/coaches': // Added coach stats
+      return [
+        { label: 'Total Coaches', value: '12', icon: Users },
+        { label: 'Active Coaches', value: '8', icon: UserCheck },
+        { label: 'Training Sessions', value: '24', icon: Calendar },
+        { label: 'Teams Assigned', value: '15', icon: Trophy }
+      ];
+    case '/matches':
+      return [
+        { label: 'This Month', value: '24', icon: Calendar },
+        { label: 'Win Rate', value: '78%', icon: Trophy },
+        { label: 'Goals Scored', value: '142', icon: Target },
+        { label: 'Clean Sheets', value: '8', icon: Shield }
+      ];
+    case '/events':
+      return [
+        { label: 'Upcoming Events', value: '12', icon: Calendar },
+        { label: 'This Month', value: '8', icon: Trophy },
+        { label: 'Registered', value: '156', icon: Users },
+        { label: 'Attendance Rate', value: '89%', icon: TrendingUp }
+      ];
+    case '/facilities':
+      return [
+        { label: 'Total Facilities', value: '6', icon: MapPin },
+        { label: 'Active Bookings', value: '24', icon: Calendar },
+        { label: 'Utilization Rate', value: '78%', icon: TrendingUp },
+        { label: 'Revenue', value: '$2.4K', icon: DollarSign }
+      ];
+    case '/communications':
+      return [
+        { label: 'Active Members', value: '156', icon: Users },
+        { label: 'Announcements', value: '8', icon: Bell },
+        { label: 'Messages', value: '24', icon: MessageSquare },
+        { label: 'Engagement', value: '92%', icon: TrendingUp }
+      ];
+    default:
+      return [
+        { label: 'Active Teams', value: '8', icon: Users },
+        { label: 'Total Players', value: '156', icon: UserCheck },
+        { label: 'This Month Matches', value: '24', icon: Trophy },
+        { label: 'Win Rate', value: '78%', icon: Target }
+      ];
+  }
 };
 
 export function MainNavbar() {
-  const location = useLocation();
-  const currentStats = pageStats[location.pathname as keyof typeof pageStats] || pageStats["/"];
+  const pathname = usePathname() || '/';
+  const stats = getPageStats(pathname);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
     <div className="bg-white border-b border-gray-200 shadow-sm">
-      {/* Search and Notifications Bar */}
-      <div className="px-4 sm:px-6 py-3 sm:py-4 border-b border-gray-100">
-        <div className="flex items-center justify-between gap-4">
-          <div className="flex-1 max-w-xs sm:max-w-md">
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
-              <Input 
-                placeholder="Search..." 
-                className="pl-10 border-gray-200 focus:border-blue-500 focus:ring-blue-500 text-sm"
+      <div className="px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-16 -mb-px">
+          {/* Left side: Logo & Navigation */}
+          <div className="flex items-center">
+            <button className="text-gray-500 mr-4 lg:hidden">
+              <AlignJustify className="w-6 h-6" />
+            </button>
+            <a className="text-xl font-bold text-gray-900" href="/">
+              SportClub Pro
+            </a>
+          </div>
+
+          {/* Search Bar (always visible) */}
+          <div className="hidden md:flex md:items-center md:w-auto md:ml-6">
+            <div className="relative w-full sm:max-w-xs">
+              <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                <Search className="h-4 w-4 text-gray-400" />
+              </div>
+              <Input
+                className="block w-full bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 pl-10 p-2.5"
+                placeholder="Search..."
               />
             </div>
           </div>
-          
-          <div className="flex items-center gap-2 sm:gap-4">
-            <Button variant="ghost" size="icon" className="relative text-gray-600 hover:text-gray-900 hover:bg-gray-100 h-8 w-8 sm:h-10 sm:w-10">
-              <Bell className="w-4 h-4 sm:w-5 sm:h-5" />
-              <Badge className="absolute -top-1 -right-1 w-4 h-4 sm:w-5 sm:h-5 p-0 bg-red-500 text-white text-xs flex items-center justify-center">
-                3
-              </Badge>
-            </Button>
-          </div>
-        </div>
-      </div>
-      
-      {/* Dynamic Stats Bar */}
-      <div className="px-4 sm:px-6 py-3 sm:py-4 bg-gradient-to-r from-gray-50 to-blue-50">
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6 text-sm">
-          {currentStats.map((stat, index) => (
-            <div key={index} className="flex items-center gap-2 sm:gap-3">
-              <div className={`p-1.5 sm:p-2 rounded-lg ${stat.color}`}>
-                <div className={`w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full ${stat.dotColor}`}></div>
-              </div>
-              <div className="min-w-0">
-                <p className="font-semibold text-gray-900 text-xs sm:text-sm truncate">{stat.label}</p>
-                <p className="text-gray-600 text-xs truncate">{stat.sublabel}</p>
-              </div>
+
+          {/* Right side: Stats & User info */}
+          <div className="flex items-center ml-auto">
+            {/* Dynamic Stats */}
+            <div className="hidden lg:flex items-center gap-4 mr-4">
+              {stats.map((stat) => (
+                <div key={stat.label} className="flex items-center gap-1">
+                  <stat.icon className="w-4 h-4 text-gray-500" />
+                  <span className="text-sm font-medium text-gray-700">
+                    {stat.value} {stat.label}
+                  </span>
+                </div>
+              ))}
             </div>
-          ))}
+
+            {/* User Dropdown */}
+            <div className="relative ml-3">
+              <Sheet>
+                <SheetTrigger asChild>
+                  <Button variant="ghost" className="relative h-8 w-8 rounded-full">
+                    <Avatar className="h-8 w-8">
+                      <AvatarImage src="https://github.com/shadcn.png" alt="Your Avatar" />
+                      <AvatarFallback>CN</AvatarFallback>
+                    </Avatar>
+                  </Button>
+                </SheetTrigger>
+                <SheetContent className="w-64">
+                  <div className="flex items-center space-x-2">
+                    <Avatar className="h-9 w-9">
+                      <AvatarImage src="https://github.com/shadcn.png" alt="Your Avatar" />
+                      <AvatarFallback>CN</AvatarFallback>
+                    </Avatar>
+                    <span className="font-semibold">John Doe</span>
+                  </div>
+                  <div className="py-4">
+                    <Button variant="ghost" className="w-full justify-start">
+                      Profile
+                    </Button>
+                    <Button variant="ghost" className="w-full justify-start">
+                      Settings
+                    </Button>
+                  </div>
+                  <Button variant="outline" className="w-full justify-center">
+                    Logout
+                  </Button>
+                </SheetContent>
+              </Sheet>
+            </div>
+          </div>
         </div>
       </div>
     </div>
