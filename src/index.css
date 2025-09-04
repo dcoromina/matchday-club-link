@@ -98,4 +98,18 @@
   body {
     @apply bg-background text-foreground;
   }
+
+  html {
+    /* Improve cross-browser font scaling behavior */
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+    -webkit-user-select: text;
+    user-select: text;
+  }
+
+  button,
+  [role="button"] {
+    -webkit-user-select: none;
+    user-select: none;
+  }
 }

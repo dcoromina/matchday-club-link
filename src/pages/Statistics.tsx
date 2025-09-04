@@ -1,10 +1,22 @@
-
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/AppSidebar";
-import { SidebarTrigger } from "@/components/ui/sidebar";
+import { SidebarTrigger, SidebarInset } from "@/components/ui/sidebar";
 import { DashboardHeader } from "@/components/DashboardHeader";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, LineChart, Line, PieChart, Pie, Cell } from "recharts";
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+  LineChart,
+  Line,
+  PieChart,
+  Pie,
+  Cell,
+} from "recharts";
 import { BarChart3, TrendingUp, Users, Target } from "lucide-react";
 
 const Statistics = () => {
@@ -34,7 +46,7 @@ const Statistics = () => {
     <SidebarProvider>
       <div className="min-h-screen flex w-full bg-gradient-to-br from-blue-50 to-green-50">
         <AppSidebar />
-        <main className="flex-1 overflow-auto">
+        <SidebarInset>
           <div className="p-6">
             <DashboardHeader />
             <div className="mb-6">
@@ -107,14 +119,19 @@ const Statistics = () => {
                       <XAxis dataKey="team" />
                       <YAxis />
                       <Tooltip />
-                      <Line type="monotone" dataKey="attendance" stroke="#8b5cf6" strokeWidth={2} />
+                      <Line
+                        type="monotone"
+                        dataKey="attendance"
+                        stroke="#8b5cf6"
+                        strokeWidth={2}
+                      />
                     </LineChart>
                   </ResponsiveContainer>
                 </CardContent>
               </Card>
             </div>
           </div>
-        </main>
+        </SidebarInset>
       </div>
     </SidebarProvider>
   );

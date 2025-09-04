@@ -1,16 +1,21 @@
-
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/AppSidebar";
 import { DashboardContent } from "@/components/DashboardContent";
+import { SidebarInset, SidebarTrigger } from "@/components/ui/sidebar";
 
 const Index = () => {
   return (
     <SidebarProvider>
       <div className="min-h-screen flex w-full bg-gray-50">
         <AppSidebar />
-        <main className="flex-1 overflow-auto min-w-0">
-          <DashboardContent />
-        </main>
+        <SidebarInset>
+          <div className="p-6">
+            <div className="mb-4">
+              <SidebarTrigger />
+            </div>
+            <DashboardContent />
+          </div>
+        </SidebarInset>
       </div>
     </SidebarProvider>
   );

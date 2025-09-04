@@ -1,7 +1,6 @@
-
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/AppSidebar";
-import { SidebarTrigger } from "@/components/ui/sidebar";
+import { SidebarTrigger, SidebarInset } from "@/components/ui/sidebar";
 import { DashboardHeader } from "@/components/DashboardHeader";
 import { MatchManagement } from "@/components/MatchManagement";
 
@@ -10,7 +9,7 @@ const Matches = () => {
     <SidebarProvider>
       <div className="min-h-screen flex w-full bg-gradient-to-br from-blue-50 to-green-50">
         <AppSidebar />
-        <main className="flex-1 overflow-auto">
+        <SidebarInset>
           <div className="p-6">
             <DashboardHeader />
             <div className="mb-6">
@@ -18,7 +17,7 @@ const Matches = () => {
             </div>
             <MatchManagement />
           </div>
-        </main>
+        </SidebarInset>
       </div>
     </SidebarProvider>
   );

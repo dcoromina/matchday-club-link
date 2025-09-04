@@ -16,28 +16,21 @@ import {
   Bell,
   TrendingUp,
 } from "lucide-react";
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 
-import { Button } from "@/components/ui/button";
-import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet";
 import { Separator } from "@/components/ui/separator";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuShortcut,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { useSidebar } from "@/components/ui/sidebar";
+  Sidebar,
+  SidebarContent,
+  SidebarGroup,
+  SidebarGroupContent,
+  SidebarGroupLabel,
+  SidebarHeader,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+  SidebarSeparator,
+} from "@/components/ui/sidebar";
 
 const navigationItems = [
   {
@@ -57,7 +50,7 @@ const navigationItems = [
   },
   {
     title: "Matches",
-    url: "/matches", 
+    url: "/matches",
     icon: Trophy,
   },
   {
@@ -103,68 +96,70 @@ const navigationItems = [
 ];
 
 export function AppSidebar() {
-  const { isOpen, onOpen, onClose } = useSidebar();
   const location = useLocation();
+  const navigate = useNavigate();
 
   return (
-    <Sheet open={isOpen} onOpenChange={onClose}>
-      <SheetTrigger asChild>
-        <Button variant="ghost" size="icon" className="md:hidden">
-          <LayoutDashboard className="h-4 w-4" />
-        </Button>
-      </SheetTrigger>
-      <SheetContent className="w-full sm:w-64 border-r pr-0">
-        <SheetHeader className="pl-6 pb-10 pt-8">
-          <SheetTitle>SportClub Pro</SheetTitle>
-          <SheetDescription>
-            Manage everything related to your sports club from one place.
-          </SheetDescription>
-        </SheetHeader>
-        <Separator />
-        <div className="flex flex-col space-y-1 py-4">
-          {navigationItems.map((item) => (
-            <NavLink
-              key={item.url}
-              to={item.url}
-              className={({ isActive }) =>
-                `flex items-center gap-3 px-6 py-2 text-sm font-medium rounded-md transition-colors hover:bg-gray-100 ${
-                  isActive
-                    ? "bg-gray-100 text-gray-900"
-                    : "text-gray-500 hover:text-gray-900"
-                }`
-              }
-            >
-              <item.icon className="w-4 h-4" />
-              {item.title}
-            </NavLink>
-          ))}
+    <Sidebar side="left" collapsible="icon">
+      <SidebarHeader className="px-4 py-4">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="h-9 w-9 rounded-xl bg-blue-600 flex items-center justify-center shadow-sm">
+              <Trophy className="h-5 w-5 text-white" />
+            </div>
+            <div className="leading-tight">
+              <div className="font-semibold text-gray-900">SportClub</div>
+              <div className="text-xs text-gray-500">Pro Dashboard</div>
+            </div>
+          </div>
         </div>
-        <Separator />
-        <div className="mt-auto mb-4 px-6">
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost" className="w-full justify-start gap-2">
-                <Avatar className="w-6 h-6">
-                  <AvatarImage src="https://github.com/shadcn.png" />
-                  <AvatarFallback>SC</AvatarFallback>
-                </Avatar>
-                <span className="truncate">shadcn</span>
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" forceMount>
-              <DropdownMenuItem>
-                Profile
-                <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
-              </DropdownMenuItem>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem>
-                Log out
-                <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </div>
-      </SheetContent>
-    </Sheet>
+      </SidebarHeader>
+      <SidebarSeparator />
+      <SidebarSeparator />
+      <SidebarContent>
+        <SidebarGroup>
+          <SidebarGroupLabel className="text-gray-600">
+            Main Menu
+          </SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {navigationItems.map((item) => {
+                const isActive = location.pathname === item.url;
+                return (
+                  <SidebarMenuItem key={item.url}>
+                    <NavLink to={item.url} className="block">
+                      <SidebarMenuButton
+                        isActive={isActive}
+                        className="justify-start rounded-lg px-3 py-2 text-gray-700 hover:bg-gray-100 data-[active=true]:bg-blue-50 data-[active=true]:text-blue-700 data-[active=true]:border data-[active=true]:border-blue-200"
+                      >
+                        <item.icon className="h-4 w-4" />
+                        <span>{item.title}</span>
+                      </SidebarMenuButton>
+                    </NavLink>
+                  </SidebarMenuItem>
+                );
+              })}
+              <SidebarMenuItem>
+                <button
+                  className="w-full text-left"
+                  onClick={() => {
+                    try {
+                      const { signOut } = require("@/lib/auth");
+                      signOut();
+                    } catch (e) {}
+                    navigate("/signin", { replace: true });
+                  }}
+                >
+                  <SidebarMenuButton className="justify-start rounded-lg px-3 py-2 text-gray-700 hover:bg-gray-100">
+                    <Shield className="h-4 w-4" />
+                    <span>Logout</span>
+                  </SidebarMenuButton>
+                </button>
+              </SidebarMenuItem>
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+      </SidebarContent>
+    </Sidebar>
   );
 }

@@ -24,71 +24,72 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { usePathname } from 'next/navigation';
+import { useLocation } from "react-router-dom";
 
 const getPageStats = (pathname: string) => {
   switch (pathname) {
-    case '/':
+    case "/":
       return [
-        { label: 'Active Teams', value: '8', icon: Users },
-        { label: 'Total Players', value: '156', icon: UserCheck },
-        { label: 'This Month Matches', value: '24', icon: Trophy },
-        { label: 'Win Rate', value: '78%', icon: Target }
+        { label: "Active Teams", value: "8", icon: Users },
+        { label: "Total Players", value: "156", icon: UserCheck },
+        { label: "This Month Matches", value: "24", icon: Trophy },
+        { label: "Win Rate", value: "78%", icon: Target },
       ];
-    case '/teams':
+    case "/teams":
       return [
-        { label: 'Active Teams', value: '8', icon: Users },
-        { label: 'Total Players', value: '156', icon: UserCheck },
-        { label: 'Training Sessions', value: '32', icon: Calendar },
-        { label: 'Avg Performance', value: '85%', icon: TrendingUp }
+        { label: "Active Teams", value: "8", icon: Users },
+        { label: "Total Players", value: "156", icon: UserCheck },
+        { label: "Training Sessions", value: "32", icon: Calendar },
+        { label: "Avg Performance", value: "85%", icon: TrendingUp },
       ];
-    case '/coaches': // Added coach stats
+    case "/coaches": // Added coach stats
       return [
-        { label: 'Total Coaches', value: '12', icon: Users },
-        { label: 'Active Coaches', value: '8', icon: UserCheck },
-        { label: 'Training Sessions', value: '24', icon: Calendar },
-        { label: 'Teams Assigned', value: '15', icon: Trophy }
+        { label: "Total Coaches", value: "12", icon: Users },
+        { label: "Active Coaches", value: "8", icon: UserCheck },
+        { label: "Training Sessions", value: "24", icon: Calendar },
+        { label: "Teams Assigned", value: "15", icon: Trophy },
       ];
-    case '/matches':
+    case "/matches":
       return [
-        { label: 'This Month', value: '24', icon: Calendar },
-        { label: 'Win Rate', value: '78%', icon: Trophy },
-        { label: 'Goals Scored', value: '142', icon: Target },
-        { label: 'Clean Sheets', value: '8', icon: Shield }
+        { label: "This Month", value: "24", icon: Calendar },
+        { label: "Win Rate", value: "78%", icon: Trophy },
+        { label: "Goals Scored", value: "142", icon: Target },
+        { label: "Clean Sheets", value: "8", icon: Shield },
       ];
-    case '/events':
+    case "/events":
       return [
-        { label: 'Upcoming Events', value: '12', icon: Calendar },
-        { label: 'This Month', value: '8', icon: Trophy },
-        { label: 'Registered', value: '156', icon: Users },
-        { label: 'Attendance Rate', value: '89%', icon: TrendingUp }
+        { label: "Upcoming Events", value: "12", icon: Calendar },
+        { label: "This Month", value: "8", icon: Trophy },
+        { label: "Registered", value: "156", icon: Users },
+        { label: "Attendance Rate", value: "89%", icon: TrendingUp },
       ];
-    case '/facilities':
+    case "/facilities":
       return [
-        { label: 'Total Facilities', value: '6', icon: MapPin },
-        { label: 'Active Bookings', value: '24', icon: Calendar },
-        { label: 'Utilization Rate', value: '78%', icon: TrendingUp },
-        { label: 'Revenue', value: '$2.4K', icon: DollarSign }
+        { label: "Total Facilities", value: "6", icon: MapPin },
+        { label: "Active Bookings", value: "24", icon: Calendar },
+        { label: "Utilization Rate", value: "78%", icon: TrendingUp },
+        { label: "Revenue", value: "$2.4K", icon: DollarSign },
       ];
-    case '/communications':
+    case "/communications":
       return [
-        { label: 'Active Members', value: '156', icon: Users },
-        { label: 'Announcements', value: '8', icon: Bell },
-        { label: 'Messages', value: '24', icon: MessageSquare },
-        { label: 'Engagement', value: '92%', icon: TrendingUp }
+        { label: "Active Members", value: "156", icon: Users },
+        { label: "Announcements", value: "8", icon: Bell },
+        { label: "Messages", value: "24", icon: MessageSquare },
+        { label: "Engagement", value: "92%", icon: TrendingUp },
       ];
     default:
       return [
-        { label: 'Active Teams', value: '8', icon: Users },
-        { label: 'Total Players', value: '156', icon: UserCheck },
-        { label: 'This Month Matches', value: '24', icon: Trophy },
-        { label: 'Win Rate', value: '78%', icon: Target }
+        { label: "Active Teams", value: "8", icon: Users },
+        { label: "Total Players", value: "156", icon: UserCheck },
+        { label: "This Month Matches", value: "24", icon: Trophy },
+        { label: "Win Rate", value: "78%", icon: Target },
       ];
   }
 };
 
 export function MainNavbar() {
-  const pathname = usePathname() || '/';
+  const location = useLocation();
+  const pathname = location.pathname || "/";
   const stats = getPageStats(pathname);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -98,7 +99,10 @@ export function MainNavbar() {
         <div className="flex items-center justify-between h-16 -mb-px">
           {/* Left side: Logo & Navigation */}
           <div className="flex items-center">
-            <button className="text-gray-500 mr-4 lg:hidden">
+            <button
+              className="text-gray-500 mr-4 lg:hidden"
+              aria-label="Open menu"
+            >
               <AlignJustify className="w-6 h-6" />
             </button>
             <a className="text-xl font-bold text-gray-900" href="/">
@@ -137,9 +141,15 @@ export function MainNavbar() {
             <div className="relative ml-3">
               <Sheet>
                 <SheetTrigger asChild>
-                  <Button variant="ghost" className="relative h-8 w-8 rounded-full">
+                  <Button
+                    variant="ghost"
+                    className="relative h-8 w-8 rounded-full"
+                  >
                     <Avatar className="h-8 w-8">
-                      <AvatarImage src="https://github.com/shadcn.png" alt="Your Avatar" />
+                      <AvatarImage
+                        src="https://github.com/shadcn.png"
+                        alt="Your Avatar"
+                      />
                       <AvatarFallback>CN</AvatarFallback>
                     </Avatar>
                   </Button>
@@ -147,7 +157,10 @@ export function MainNavbar() {
                 <SheetContent className="w-64">
                   <div className="flex items-center space-x-2">
                     <Avatar className="h-9 w-9">
-                      <AvatarImage src="https://github.com/shadcn.png" alt="Your Avatar" />
+                      <AvatarImage
+                        src="https://github.com/shadcn.png"
+                        alt="Your Avatar"
+                      />
                       <AvatarFallback>CN</AvatarFallback>
                     </Avatar>
                     <span className="font-semibold">John Doe</span>
