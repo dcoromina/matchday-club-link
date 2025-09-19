@@ -15,6 +15,7 @@ import {
   Shield,
   Bell,
   TrendingUp,
+  Compass,
 } from "lucide-react";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 
@@ -87,6 +88,11 @@ const navigationItems = [
     title: "Communications",
     url: "/communications",
     icon: MessageSquare,
+  },
+  {
+    title: "Onboarding",
+    url: "/onboarding",
+    icon: Compass,
   },
   {
     title: "Settings",
